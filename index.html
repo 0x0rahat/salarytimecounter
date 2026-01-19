@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Euro Denim & Fashion Ltd. | Real-Time Tracker</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background: #0f172a; /* Dark Elegant Background */
+            color: white;
+        }
+
+        .card {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 3rem;
+            border-radius: 30px;
+            box-shadow: 0 10px 50px rgba(0,0,0,0.5);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            text-align: center;
+            width: 90%;
+            max-width: 600px;
+        }
+
+        h1 {
+            color: #38bdf8;
+            margin-bottom: 5px;
+            font-size: 2rem;
+            text-transform: uppercase;
+        }
+
+        .subtitle {
+            font-size: 1.1rem;
+            color: #94a3b8;
+            margin-bottom: 30px;
+        }
+
+        /* Real-time Grid Layout */
+        .timer-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+
+        .time-box {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 15px 5px;
+            border-radius: 15px;
+            border-bottom: 4px solid #38bdf8;
+        }
+
+        .number {
+            display: block;
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: #fff;
+        }
+
+        .label {
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            color: #38bdf8;
+            letter-spacing: 1px;
+        }
+
+        .start-info {
+            font-size: 0.9rem;
+            color: #64748b;
+            background: rgba(0,0,0,0.3);
+            padding: 10px;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="card">
+        <h1>Euro Denim & Fashion Ltd.</h1>
+        <p class="subtitle">বেতন ছাড়া অতিবাহিত সময় (রিয়েল-টাইম)</p>
+
+        <div class="timer-grid">
+            <div class="time-box">
+                <span class="number" id="days">00</span>
+                <span class="label">Days</span>
+            </div>
+            <div class="time-box">
+                <span class="number" id="hours">00</span>
+                <span class="label">Hours</span>
+            </div>
+            <div class="time-box">
+                <span class="number" id="minutes">00</span>
+                <span class="label">Min</span>
+            </div>
+            <div class="time-box">
+                <span class="number" id="seconds">00</span>
+                <span class="label">Sec</span>
+            </div>
+        </div>
+
+        <div class="start-info">
+            কাউন্টিং শুরু হয়েছে: <span id="startDateDisplay"></span>
+        </div>
+    </div>
+
+    <script>
+        // ১. আপনার শুরুর তারিখ এখানে সেট করুন
+        // format: "Month Day, Year HH:MM:SS"
+        const startTime = new Date("November 1, 2025 00:00:00").getTime();
+
+        function updateLiveCounter() {
+            const now = new Date().getTime();
+            const difference = now - startTime;
+
+            // সময় গণনা (Days, Hours, Minutes, Seconds)
+            const d = Math.floor(difference / (1000 * 60 * 60 * 24));
+            const h = Math.floor((difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const m = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60));
+            const s = Math.floor((difference % (1000 * 60)) / 1000);
+
+            // স্ক্রিনে ডেটা পাঠানো (যদি সংখ্যা ১০ এর কম হয় তবে আগে ০ যোগ হবে)
+            document.getElementById("days").innerHTML = d;
+            document.getElementById("hours").innerHTML = h < 10 ? "0" + h : h;
+            document.getElementById("minutes").innerHTML = m < 10 ? "0" + m : m;
+            document.getElementById("seconds").innerHTML = s < 10 ? "0" + s : s;
+        }
+
+        // শুরুতে তারিখ প্রদর্শন করা
+        document.getElementById("startDateDisplay").innerText = new Date(startTime).toLocaleString('bn-BD');
+
+        // প্রতি ১ সেকেন্ড (১০০০ মিলি-সেকেন্ড) পর পর আপডেট হবে
+        setInterval(updateLiveCounter, 1000);
+
+        // পেজ লোড হওয়া মাত্রই একবার রান করবে
+        updateLiveCounter();
+    </script>
+
+</body>
+</html>
